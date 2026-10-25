@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Banner</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #111; display: flex; justify-content: center; padding: 20px; }
+        
+        /* Размеры под твою картинку с уткой */
+        .banner-container {
+            position: relative;
+            width: 430px;
+            height: 850px;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .banner-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* ЧБ слой (images.h) */
+        .bg-bw {
+            background-image: url('images2.jpg');
+        }
+
+        /* Цветной слой (вместо ссылки подставь имя своего цветного файла) */
+        .bg-color {
+            background-image: url('images.jpg');
+            clip-path: circle(0px at 0px 0px);
+            transition: clip-path 0.08s ease-out;
+            pointer-events: none; 
+        }
+
+        /* Абсолютный контейнер для кнопок-ссылок */
+        .interactive-links {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10;
+        }
+
+        /* НАСТРОЙКА КНОПОК: меняй проценты, чтобы двигать их по картинке */
+        .btn-zone {
+            position: absolute;
+            left: 5%;
+            width: 90%;
+            cursor: pointer;
+            /* КРАСНАЯ РАМКА ДЛЯ НАГЛЯДНОСТИ (удали border, когда закончишь настройку) */
+            border: 2px solid red; 
+        }
+        
+        /* Вкладка 1: Голова утки */
+        .btn-head { 
+            top: 2%; 
+            height: 20%; 
+        }
+
+        /* Вкладка 2: Подсвеченное крыло */
+        .btn-wing { 
+            top: 35%; 
+            height: 25%; 
+        }
+
+        /* Вкладка 3: Лапки */
+        .btn-legs { 
+            top: 70%; 
+            height: 20%; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="banner-container" id="banner">
+        <div class="banner-layer bg-bw"></div>
+        <div class="banner-layer bg-color" id="colorLayer"></div>
+
+        <!-- ТУТ ТВОИ ВКЛАДКИ И ССЫЛКИ -->
+        <div class="interactive-links">
+            <!-- Замени ссылки https://... на свои (например, на свой телеграм канал или бота) -->
+            <a href="https://t.me" target="_blank" class="btn-zone btn-head" title="Вкладка Голова"></a>
+            <a href="https://t.me" target="_blank" class="btn-zone btn-wing" title="Вкладка Крыло"></a>
+            <a href="https://t.me" target="_blank" class="btn-zone btn-legs" title="Вкладка Лапки"></a>
+        </div>
+    </div>
+
+    <script>
+        const banner = document.getElementById('banner');
+        const colorLayer = document.getElementById('colorLayer');
+        const radius = 90; // Размер круга раскрашивания
+
+        banner.addEventListener('mousemove', (e) => {
+            const rect = banner.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            colorLayer.style.clipPath = `circle(${radius}px at ${x}px ${y}px)`;
+        });
+
+        banner.addEventListener('mouseleave', () => {
+            colorLayer.style.clipPath = `circle(0px at 0px 0px)`;
+        });
+    </script>
+
+</body>
+</html>
